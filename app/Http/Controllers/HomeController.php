@@ -39,4 +39,14 @@ class HomeController extends Controller
     {
         return view('pages.services');
     }
+
+    public function productdetail()
+    {
+        return view('pages.productdetail');
+    }
+
+    public function checkout()
+    {
+        return view('pages.checkout');
+    }
 }
