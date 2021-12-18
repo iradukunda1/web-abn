@@ -7,7 +7,7 @@
                         <span class="pcoded-micon">
                         <i class="feather icon-watch"></i>
                         </span>
-                        <span class="pcoded-mtext">Agent</span>
+                        <span class="pcoded-mtext">Agent Dashboard Panel</span>
                     </a>
                 </li>
             </ul>
@@ -37,7 +37,18 @@
                         </li>
                     </ul>
                 </li>
-                <li class="pcoded-hasmenu">
+                <div class="pcoded-navigation-label">Products</div>
+                <ul class="pcoded-item pcoded-left-item">
+                    <li>
+                        <a class="waves-effect waves-dark" href="/agent/products/list">
+                            <span class="pcoded-micon">
+                            <i class="feather icon-list"></i>
+                            </span>
+                            <span class="pcoded-mtext">List</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- <li class="pcoded-hasmenu">
                     <a class="waves-effect waves-dark" href="javascript:void(0)">
                         <span class="pcoded-micon"><i class="feather icon-users"></i></span>
                         <span class="pcoded-mtext">Organization</span>
@@ -61,7 +72,7 @@
                         </li>
                     </ul>
                 </li>
-            </ul>
+            </ul> -->
             <div class="pcoded-navigation-label">Requests Management</div>
             <ul class="pcoded-item pcoded-left-item">
                 <li class="pcoded-hasmenu">

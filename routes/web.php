@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Merchant;
+use App\User;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,7 +26,11 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('users', 'AdminUserManagementController@users');
             Route::get('users/agents', 'AdminUserManagementController@agents');
             Route::get('/merchants/list', function(){
-                return view('admin.users.merchants.list');
+                $merchants = Merchant::latest()->paginate(30);
+                foreach($merchants as $merchant){                        
+                    $merchant['agent']= User::where('id',$merchant->registered_by)->first();
+                }
+                return view('admin.users.merchants.list',compact('merchants'));
             });
             Route::Apiresource("/api/users", "AdminUserManagementController");
             Route::put('api/user/verify/{user}', 'AdminUserManagementController@verify');
@@ -50,11 +55,13 @@ Route::group(['middleware' => ['auth']], function () {
                 $merchants = Merchant::where('registered_by',auth()->user()->id)->where('active',1)->paginate(30);             
                 return view('agent.merchants.list',compact('merchants'));
             });
+            Route::resource('orders','OrderController');
             Route::Apiresource("/api/bussiness/category", "BussinesCategoryController");
+            Route::get("/products/list","AdminProductController@agentProducts");
         });
     });
 });
-
+Route::get('/products/details/{product}', 'AdminProductController@show');
 Route::get("/api/user", function () {
     $user = auth()->user();
     $user->type = $user->roles->first()->name;

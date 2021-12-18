@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use App\Merchant;
 use Illuminate\Http\Request;
+use App\Http\Resources\MerchantResource;
 
 class MerchentsControllerManagement extends Controller
 {
@@ -14,7 +15,8 @@ class MerchentsControllerManagement extends Controller
      */
     public function index()
     {
-        //
+        $auth = auth()->user()->id;
+        return MerchantResource::collection(Merchant::where("registered_by", $auth)->where("active",1)->orderBy("bussiness_name")->get());
     }
 
     public function admin()
@@ -77,9 +79,9 @@ class MerchentsControllerManagement extends Controller
         return "Merchant Created Successfully!";
     }
    
-    public function show($id)
+    public function show(Merchant $merchant)
     {
-        //
+        return new MerchantResource($merchant);
     }
 
     public function edit(Merchant $merchant)

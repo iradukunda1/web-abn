@@ -40,6 +40,7 @@ Vue.component('app-image', Image);
 Vue.component('app-user-profile', UserProfile);
 Vue.component('app-bussiness-category', BussinessCategory);
 Vue.component('app-edit-merchant', EditMerchant);
+Vue.component('app-products-list-card',ProductListCard)
 
 import Vue from 'vue'
 import User from "./components/User";
@@ -51,6 +52,7 @@ import Image from "./components/Image";
 import UserProfile from "./components/UserProfile";
 import BussinessCategory from "./components/BussinessCategory";
 import EditMerchant from "./components/EditMerchant"
+import ProductListCard from "./components/ProductListCard"
 
 const app = new Vue({
     el: '#app',
@@ -253,7 +255,7 @@ const app = new Vue({
         showModal(product_id) {
             this.product = null;
             this.$Progress.start();
-            axios.get("/admin/products/" + product_id)
+            axios.get("/products/details/" + product_id)
                 .then(resp => {
                     this.product = resp.data.data;
                     this.$Progress.finish()

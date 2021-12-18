@@ -101,7 +101,7 @@
                                     <li class="tx-f15"><a href="/admin">Dashboard</a></li>
                                     @endrole
                                     @role("agent")
-                                    <li class="tx-f15"><a href="#">Account</a></li>
+                                    <li class="tx-f15"><a href="/agent/profile">Account</a></li>
                                     <li class="tx-f15"><a href="#">My Commissions</a></li>
                                     @endrole
                                     <li class="tx-f15"><a href="/logout">Logout</a></li>
@@ -149,7 +149,7 @@
                                             <ul class="dropdown-menu animation slideDownIn"
                                                 aria-labelledby="dropdownMenuButton-2">
                                                 <li class="tx-f15"><a class="text-black-50" href="#">User</a></li>
-                                                <li class="tx-f15"><a class="text-black-50" href="#">Merchants</a></li>
+                                                <li class="tx-f15"><a class="text-black-50" href="/agent/merchants/create">Merchants</a></li>
                                                 <li class="tx-f15"><a class="text-black-50" href="#">Organization</a></li>
                                             </ul>
                                         </a>

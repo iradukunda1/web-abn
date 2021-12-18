@@ -3,25 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Merchant;
+use App\Product;
+
 
 class AgentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
-    {
-        return view('agent.index');
+
+    {   
+        $active_merchants_count = Merchant::where('registered_by', auth()->user()->id)->where('active',1)->get()->count();
+        $total_merchants = Merchant::where('registered_by', auth()->user()->id)->get()->count();
+        $products_count = Product::where('status', 1)->get()->count();
+        return view('agent.index',compact('active_merchants_count','total_merchants','products_count'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //

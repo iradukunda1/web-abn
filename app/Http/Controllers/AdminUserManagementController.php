@@ -112,7 +112,7 @@ class AdminUserManagementController extends Controller
         $validators = validator()->make($request->all(), [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'phone_number' => 'required|regex:/^(07[8,2,3,9])[0-9]{7}$/|unique:users',
+            'phone_number' => 'required|regex:/^(07[8,2,3,9])[0-9]{7}$/',
         ]);
         if ($validators->fails()) {
             return response()->json($validators->errors(), 422);

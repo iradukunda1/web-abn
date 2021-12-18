@@ -4,15 +4,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-4 col-md-6">
-                <div class="card prod-p-card card-red">
+                <div class="card prod-p-card card-success">
                     <div class="card-body">
                         <div class="row align-items-center m-b-30">
                             <div class="col">
-                                <h6 class="m-b-5 text-white">Total Income</h6>
-                                <h3 class="m-b-0 f-w-700 text-white">15,000$</h3>
+                                <h6 class="m-b-5 text-white">Total User</h6>
+                                <h3 class="m-b-0 f-w-700 text-white">{{$total_user}}</h3>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-money-bill-alt text-c-red f-18"></i>
+                                <i class="fas fa-user text-c-red f-18"></i>
                             </div>
                         </div>
                     </div>
@@ -23,26 +23,26 @@
                     <div class="card-body">
                         <div class="row align-items-center m-b-30">
                             <div class="col">
-                                <h6 class="m-b-5 text-white">Total Request</h6>
-                                <h3 class="m-b-0 f-w-700 text-white">50</h3>
+                                <h6 class="m-b-5 text-white">Total Agent</h6>
+                                <h3 class="m-b-0 f-w-700 text-white">{{$total_agent}}</h3>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-database text-c-blue f-18"></i>
+                                <i class="fas fa-users text-c-blue f-18"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-xl-4 col-md-6">
-                <div class="card prod-p-card card-green">
+                <div class="card prod-p-card card-red">
                     <div class="card-body">
                         <div class="row align-items-center m-b-30">
                             <div class="col">
-                                <h6 class="m-b-5 text-white">Sold Quantities</h6>
-                                <h3 class="m-b-0 f-w-700 text-white">40</h3>
+                                <h6 class="m-b-5 text-white">Total Unverified Agent</h6>
+                                <h3 class="m-b-0 f-w-700 text-white">{{$total_unverified_agents}}</h3>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-dollar-sign text-c-green f-18"></i>
+                                <i class="fas fa-users text-c-green f-18"></i>
                             </div>
                         </div>
                     </div>
@@ -53,8 +53,8 @@
                     <div class="card-body">
                         <div class="row align-items-center m-b-30">
                             <div class="col">
-                                <h6 class="m-b-5 text-white">Products Sold</h6>
-                                <h3 class="m-b-0 f-w-700 text-white">20</h3>
+                                <h6 class="m-b-5 text-white">Total Products</h6>
+                                <h3 class="m-b-0 f-w-700 text-white">{{$products_count}}</h3>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-tags text-c-yellow f-18"></i>
@@ -68,11 +68,11 @@
                     <div class="card-body">
                         <div class="row align-items-center m-b-30">
                             <div class="col">
-                                <h6 class="m-b-5 text-white">Most Sold Products</h6>
-                                <h5 class="m-b-0 f-w-700 text-white">Cements</h5>
+                                <h6 class="m-b-5 text-white">Total Merchants</h6>
+                                <h5 class="m-b-0 f-w-700 text-white">{{$total_merchants}}</h5>
                             </div>
                             <div class="col-auto">
-                                <i style="color:  #8e44ad!important;" class="fas fa-database f-18"></i>
+                                <i style="color:  #8e44ad!important;" class="fas fa-users f-18"></i>
                             </div>
                         </div>
                     </div>

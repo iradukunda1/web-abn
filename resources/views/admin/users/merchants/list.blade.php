@@ -12,55 +12,53 @@
                         <table class="table table-stripped" style="width: 100%">
                             <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Names</th>
+                                <th>id</th>
+                                <th>Bussiness_Name</th>
+                                <th>Merchant_Phone</th>
+                                <th>Province</th>
                                 <th>District</th>
                                 <th>Sector</th>
                                 <th>Cell</th>
                                 <th>Village</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Registed_by</th>
+                                <th>Agent_Phone</th>
                                 <th>Category</th>
                                 <th>Status</th>
                                 <th>Joined_At</th>
-                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
+                                @foreach($merchants as $merchant)
                                 <tr>
-                                    <td>#253DFG</td>
+                                    <td>{{$merchant->id}}</td>
                                     <td>
                                         <a href="#">
-                                            Abn International
+                                            {{$merchant->bussiness_name}}
                                         </a>
                                     </td>
-                                    <td>  Kicukiro </td>
-                                    <td>  Kicukiro </td>
-                                    <td>  Kagarama </td>
-                                    <td>  Niboye </td>
-                                    <td>  abn@gmail.com </td>
-                                    <td>  078885637233  </td>
-                                    <td> 07808457454 </td>
-                                    <td>   association </td>
+                                    <td>   {{$merchant->phone_number}} </td>
+                                    <td>  {{$merchant->province}} </td>
+                                    <td>  {{$merchant->district}} </td>
+                                    <td>  {{$merchant->sector}} </td>
+                                    <td>  {{$merchant->cell}} </td>
+                                    <td>  {{$merchant->village}} </td>
+                                    <td>  {{ $merchant->agent->phone_number }}  </td>
+                                    <td>  {{$merchant->category->name}}  </td>
                                     <td>
+                                        @if($merchant->active ==1)
                                         <span
                                             class="badge badge-primary">Active</span>
-                                        <!-- <br>
-                                        <span class="badge badge-success">Disactive</span> -->
+                                        @else
+                                        <span class="badge badge-success">Disactive</span>
+                                        @endif
                                      </td>
-                                    <td> 2021-12-01 </td>
-                                    <td> 
-                                        <a href="#" class="btn-icon btn-icon-only btn-pill btn btn-outline-info"><i
-                                            class="feather icon-edit btn-icon-wrapper"> </i>
-                                        </a>
-                                        <a href="#" class="btn-icon btn-icon-only btn-pill btn btn-outline-danger">
-                                            <i class="feather icon-trash btn-icon-wrapper"> </i>
-                                        </a>
-                                    </td>
+                                    <td> {{$merchant->created_at->toDateString()}} </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-end">
+                                {!!  $merchants->appends($_GET)->links() !!}
+                            </div>
                     </div>
                 </div>
             </div>

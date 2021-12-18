@@ -154,4 +154,17 @@ class AdminProductController extends Controller
         $product->update(["home_slider" => $request->value]);
         return "Ok";
     }
+
+    public function agentProducts()
+    {
+        $available_products = Product::where("status", 1)->get();
+        foreach($available_products as $product){
+            $product['tags'] = json_decode($product['tags']);
+        }
+        $unavailable_products = Product::where("status", 0)->get();
+        foreach($unavailable_products as $product){
+            $product['tags'] = json_decode($product['tags']);
+        }
+        return view("agent.products.list", compact('available_products','unavailable_products'));
+    }
 }
