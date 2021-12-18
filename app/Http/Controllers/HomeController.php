@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Product;
 class HomeController extends Controller
 {
     /**
@@ -40,9 +40,9 @@ class HomeController extends Controller
         return view('pages.services');
     }
 
-    public function productdetail()
+    public function productdetail(Product $product)
     {
-        return view('pages.productdetail');
+        return view('pages.productdetail',compact('product'));
     }
 
     public function checkout()

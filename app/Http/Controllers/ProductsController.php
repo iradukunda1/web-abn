@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Product;
 class ProductsController extends Controller
 {
     /**
@@ -13,7 +13,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return view('pages.products');
+        $products = Product::latest()->where('status',1)->paginate(30); 
+        return view('pages.products',compact('products'));
     }
 
     /**

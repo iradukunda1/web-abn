@@ -24,9 +24,10 @@
                         </ul>
                     </div>
                     <div class="product-details col-md-6">
-                        <h3 class="product-title">Product name</h3>
+                        <h3 class="product-title">{{$product->title}}</h3>
+                        <h4 class="product-category">{{$product->categories[0]->name}}</h4>
                         <p class="product-description">Product details</p>
-                        <h4 class="price">current price:<span>price:RWF</span></h4>
+                        <h4 class="price">current price:&nbsp;<span>{{ number_format($product->sale_price) }}</span></h4>
                         <div class="action">
                             <a href="/checkout"><button class="add-to-cart btn btn-default" type="button">Buy Now</button></a>
                         </div>

@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Merchant;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
+    //return view('welcome');
 });
 
 Route::get('/contact-us','HomeController@contact')->name('contact-us');
@@ -13,7 +14,7 @@ Route::get('/about-us','HomeController@about')->name('about');
 Route::get('/services','HomeController@services')->name('services');
 
 Route::resource('/products', ProductsController::class);
-Route::get('/productdetail','HomeController@productdetail')->name('productdetail');
+Route::get('/productdetail/{product}','HomeController@productdetail')->name('productdetail');
 Route::get('/checkout','HomeController@checkout')->name('checkout');
 Route::get('/home', 'HomeController@index')->name('home')->middleware('check_redirection');
 
@@ -41,7 +42,8 @@ Route::group(['middleware' => ['auth']], function () {
     });    
     Route::prefix('agent')->group(function () {
         Route::middleware('check_is_agent')->group(function () {
-            Route::get('/', 'AgentController@index');     
+            Route::get('/', 'AgentController@index'); 
+            Route::resource('/products', 'AgentProductController');    
             Route::get('/agent/organizations/list', 'AgentOrganizationManagement@index');      
             Route::post("/profile/{user}", "AdminUserManagementController@profile");
             Route::get("/profile", "AdminUserManagementController@getProfile");
@@ -50,6 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
                 $merchants = Merchant::where('registered_by',auth()->user()->id)->where('active',1)->paginate(30);             
                 return view('agent.merchants.list',compact('merchants'));
             });
+            Route::resource('/agent/products/index', AgentProductsController::class);
             Route::Apiresource("/api/bussiness/category", "BussinesCategoryController");
         });
     });
