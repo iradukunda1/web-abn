@@ -58,54 +58,29 @@ const app = new Vue({
     el: '#app',
     data: {
         order_products: null,
-        modal_product: null,
-        test: "",
-        type: 'customer',
         order: null,
-        add_to_cart_form: {
-            size: '',
-            quantity: 1
-        },
-        cart: {
-            quantity: [0]
-        },
-        homepage: {
-            product: null,
-            home_section_id: ''
-        },
-        showDiscount: false,
         product: null,
-        discount: {
-            end_date: '',
-            end_time: '',
-            new_price: 0
-        },
-        form_buy: {}
     },
     methods: {
-        quickView(product) {
-            $("#quick-view").modal("show");
-            const sizes = JSON.parse(product.sizes);
-            if (sizes.length > 0) {
-                this.add_to_cart_form.size = sizes[0]
-            }
-            this.modal_product = {
-                ...product,
-                sizes: JSON.parse(product.sizes)
-            }
-        },
-        changeQuantity(num) {
-            if (this.add_to_cart_form.quantity >= this.modal_product.client_max || this.add_to_cart_form.quantity <= 0)
-                return;
-            this.add_to_cart_form.quantity++
-        },
-        addToCart() {
-            console.log("Added To card")
-        },
         showOrderProducts(order) {
             this.$Progress.start();
+            console.log(order);
             this.order = order
             axios.get("/order/" + order.id)
+                .then(resp => {
+                    this.order_products = resp.data.data;
+                    this.$Progress.finish()
+                })
+                .catch(() => {
+                    this.$Progress.fail()
+                });
+            $("#exampleModal").modal("show");
+        },
+        adminshowOrderProducts(order) {
+            this.$Progress.start();
+            console.log(order);
+            this.order = order
+            axios.get("/admin/order/" + order.id)
                 .then(resp => {
                     this.order_products = resp.data.data;
                     this.$Progress.finish()
@@ -215,43 +190,6 @@ const app = new Vue({
                 }
             })
         },
-        changeHomeSlider(product) {
-            this.$swal({
-                title: 'Are you sure?',
-                text: `You want to ${product.home_slider ? "remove" : "add"} this product to home slider!`,
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: `Yes, ${product.home_slider ? "Remove" : "Add"} it!`
-            }).then((result) => {
-                if (result.value) {
-                    this.$Progress.start();
-                    axios.put("/change-slider/" + product.id, { 'value': product.home_slider ? false : true })
-                        .then(resp => {
-                            this.$Progress.finish();
-                            this.$swal(
-                                'Update Slider!',
-                                'Product has been Updated Done.',
-                                'success'
-                            ).then((result) => {
-                                if (result.value) {
-                                    window.location.reload(true);
-                                    return false
-                                }
-                            })
-                        })
-                        .catch(err => {
-                            this.$Progress.fail();
-                            this.$swal(
-                                'Update Slider!',
-                                'Slider Update has been failed.',
-                                'warning'
-                            )
-                        })
-                }
-            })
-        },
         showModal(product_id) {
             this.product = null;
             this.$Progress.start();
@@ -265,41 +203,8 @@ const app = new Vue({
                 });
             $("#productModal").modal("show");
         },
-        clearDiscount() {
-            this.discount.new_price = 0;
-            this.discount.end_date = "";
-            this.discount.end_time = "";
-            this.showDiscount = false
-        },
-        submitDiscount() {
-            this.$Progress.start();
-            axios.post("/discount", {
-                end_time: this.discount.end_date + " " + this.discount.end_time,
-                price: this.discount.new_price,
-                product_id: this.product.id
-            })
-                .then(resp => {
-                    this.$Progress.finish();
-                    this.clearDiscount();
-                    this.product.discount = resp.data
-                })
-                .catch(err => {
-                    this.$Progress.fail();
-                    console.log("error")
-                })
-        },
     },
     created() {
-        this.$on("quick-view", product => {
-            $("#quick-view").modal("show");
-            const sizes = product.sizes;
-            if (sizes.length > 0) {
-                this.add_to_cart_form.size = sizes[0]
-            }
-            this.modal_product = {
-                ...product,
-            }
-        });
         // this.$on("fillAddress", address => {
         //     this.form_buy.address = address
         // })

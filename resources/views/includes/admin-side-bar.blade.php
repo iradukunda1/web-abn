@@ -84,13 +84,13 @@
                         <span class="pcoded-mtext">Requests</span>
                     </a>
                     <ul class="pcoded-submenu">
-                        <li>
+                        <!-- <li>
                             <a class="waves-effect waves-dark" href="#">
                                 <span class="pcoded-mtext">New Requests</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li>
-                            <a class="waves-effect waves-dark" href="#">
+                            <a class="waves-effect waves-dark" href="/admin/orders/list">
                                 <span class="pcoded-mtext">All Requests</span>
                             </a>
                         </li>

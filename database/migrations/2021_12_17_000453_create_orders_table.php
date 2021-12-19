@@ -16,10 +16,11 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string("order_id");
-            $table->string("agent_id")->nullable();
+            $table->integer("agent_id")->nullable();
             $table->string("price");        
             $table->boolean("seen")->default(false);        
-            $table->string("customer_id");
+            $table->integer("customer_id")->nullable();
+            $table->integer("merchant_id")->nullable();
             $table->string("delivered_at")->nullable();
             $table->boolean("delivered")->default(false);
             $table->timestamps();

@@ -36,8 +36,7 @@
                     <a href="#" @click="changeVerified(user)"
                         data-toggle="tooltip" data-placement="top"
                         :title="user.verified !=0 ? 'Click To Remove From Verified User' : 'Click To Add To Verified User'">
-                            <span class="badge badge-success" v-if="user.verified">Verified</span>
-                            <span class="badge badge-warning text-white" v-else>Un-verified</span>
+                        <span class="badge text-white" :class="user.verified != 0 ? 'badge-success' : 'badge-warning'">{{ user.verified != 0 ? 'Verified' : 'Un-verified'}}</span>
                     </a>
                 </td>
               <td>{{ user.created_at }}</td>

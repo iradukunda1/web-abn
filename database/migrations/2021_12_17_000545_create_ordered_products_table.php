@@ -20,7 +20,8 @@ class CreateOrderedProductsTable extends Migration
             $table->integer("quantity");
             $table->integer("price");
             $table->integer("agent_id")->nullable();
-            $table->string("customer_id");
+            $table->integer("customer_id")->nullable();
+            $table->integer("merchant_id")->nullable();
             $table->timestamps();
         });
     }

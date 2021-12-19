@@ -12,11 +12,9 @@ class CheckRedirection
         $response = $next($request);
         if (Auth::check() && (Auth::user()->hasRole("admin"))) {
             return redirect('/admin');
-        }elseif (Auth::check() && (Auth::user()->hasRole("user"))) {
-            return $response;
         }elseif (Auth::check() && (Auth::user()->hasRole("agent"))) {
             return redirect("/agent");
         }
-        return redirect(""); 
+        return $response;
     }
 }

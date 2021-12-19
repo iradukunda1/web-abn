@@ -3930,6 +3930,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3980,7 +3990,7 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this2 = this;
 
-      this.form.products.push(this.selectedProducts[0]);
+      this.form.products.push(this.selectedProducts);
       this.$Progress.start();
       this.form.post("/agent/orders").then(function (resp) {
         _this2.$Progress.finish();
@@ -3990,6 +4000,8 @@ __webpack_require__.r(__webpack_exports__);
         _this2.form.reset();
 
         _this2.toast("Congratulations", resp.data, "success");
+
+        window.location = "";
       })["catch"](function () {
         _this2.$Progress.fail();
 
@@ -3998,8 +4010,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     details: function details(id) {
       this.$emit("product-details", id);
-    },
-    changeProduct: function changeProduct(e) {// console.log(this.selectedProducts);
     },
     showCheckBox: function showCheckBox(product) {
       this.selected = product.slug;
@@ -4050,7 +4060,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.common.js");
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vform__WEBPACK_IMPORTED_MODULE_0__);
-//
 //
 //
 //
@@ -109218,6 +109227,12 @@ var render = function () {
                                           value: _vm.selectedProducts,
                                           expression: "selectedProducts",
                                         },
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: product.quantity > 0,
+                                          expression: "product.quantity > 0",
+                                        },
                                       ],
                                       staticClass: "select-product bg-info",
                                       staticStyle: { cursor: "pointer" },
@@ -109239,32 +109254,27 @@ var render = function () {
                                           : _vm.selectedProducts,
                                       },
                                       on: {
-                                        change: [
-                                          function ($event) {
-                                            var $$a = _vm.selectedProducts,
-                                              $$el = $event.target,
-                                              $$c = $$el.checked ? true : false
-                                            if (Array.isArray($$a)) {
-                                              var $$v = product,
-                                                $$i = _vm._i($$a, $$v)
-                                              if ($$el.checked) {
-                                                $$i < 0 &&
-                                                  (_vm.selectedProducts =
-                                                    $$a.concat([$$v]))
-                                              } else {
-                                                $$i > -1 &&
-                                                  (_vm.selectedProducts = $$a
-                                                    .slice(0, $$i)
-                                                    .concat($$a.slice($$i + 1)))
-                                              }
+                                        change: function ($event) {
+                                          var $$a = _vm.selectedProducts,
+                                            $$el = $event.target,
+                                            $$c = $$el.checked ? true : false
+                                          if (Array.isArray($$a)) {
+                                            var $$v = product,
+                                              $$i = _vm._i($$a, $$v)
+                                            if ($$el.checked) {
+                                              $$i < 0 &&
+                                                (_vm.selectedProducts =
+                                                  $$a.concat([$$v]))
                                             } else {
-                                              _vm.selectedProducts = $$c
+                                              $$i > -1 &&
+                                                (_vm.selectedProducts = $$a
+                                                  .slice(0, $$i)
+                                                  .concat($$a.slice($$i + 1)))
                                             }
-                                          },
-                                          function ($event) {
-                                            return _vm.changeProduct(product)
-                                          },
-                                        ],
+                                          } else {
+                                            _vm.selectedProducts = $$c
+                                          }
+                                        },
                                       },
                                     }),
                                     _vm._v(" "),
@@ -109324,6 +109334,7 @@ var render = function () {
               on: {
                 submit: function ($event) {
                   $event.preventDefault()
+                  return _vm.submit.apply(null, arguments)
                 },
               },
             },
@@ -109402,54 +109413,78 @@ var render = function () {
                               }),
                             ]),
                             _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "form-group col-md-6" },
-                              [
-                                _c("label", [_vm._v("Required Quantity")]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.form.quantity,
-                                      expression: "form.quantity",
-                                    },
-                                  ],
-                                  staticClass: "form-control",
-                                  class: {
-                                    "is-invalid":
-                                      _vm.form.errors.has("quantity"),
+                            _c("div", { staticClass: "form-group col-md-8" }, [
+                              _c("label", [_vm._v("Available Quantity")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: product.quantity,
+                                    expression: "product.quantity",
                                   },
-                                  attrs: {
-                                    type: "number",
-                                    placeholder:
-                                      "Quantity Required for product No." +
-                                      (index + 1),
-                                    autocomplete: "off",
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "number", disabled: "" },
+                                domProps: { value: product.quantity },
+                                on: {
+                                  input: function ($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      product,
+                                      "quantity",
+                                      $event.target.value
+                                    )
                                   },
-                                  domProps: { value: _vm.form.quantity },
-                                  on: {
-                                    input: function ($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        _vm.form,
-                                        "quantity",
-                                        $event.target.value
-                                      )
-                                    },
+                                },
+                              }),
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "form-group col-md-6" }, [
+                              _c("label", [_vm._v("Required Quantity")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model.number",
+                                    value: product.request_quantity,
+                                    expression: "product.request_quantity",
+                                    modifiers: { number: true },
                                   },
-                                }),
-                                _vm._v(" "),
-                                _c("has-error", {
-                                  attrs: { form: _vm.form, field: "quantity" },
-                                }),
-                              ],
-                              1
-                            ),
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  type: "number",
+                                  placeholder:
+                                    "Quantity Required for product No." +
+                                    (index + 1),
+                                  autocomplete: "off",
+                                  required: "",
+                                  max: "" + product.quantity,
+                                  min: "1",
+                                },
+                                domProps: { value: product.request_quantity },
+                                on: {
+                                  input: function ($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      product,
+                                      "request_quantity",
+                                      _vm._n($event.target.value)
+                                    )
+                                  },
+                                  blur: function ($event) {
+                                    return _vm.$forceUpdate()
+                                  },
+                                },
+                              }),
+                            ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-12" }, [
@@ -109519,13 +109554,12 @@ var render = function () {
                       _vm._v(" "),
                       _c("div", { staticClass: "form-group col-md-12" }, [
                         _vm.form.merchant.length != 0 &&
-                        _vm.selectedProducts.length != 0 &&
-                        _vm.form.quantity != ""
+                        _vm.selectedProducts.length != 0
                           ? _c(
                               "button",
                               {
                                 staticClass: "btn btn-primary float-right",
-                                on: { click: _vm.submit },
+                                attrs: { type: "submit" },
                               },
                               [_vm._v("\n            Submit Order\n          ")]
                             )
@@ -109621,20 +109655,25 @@ var render = function () {
                             },
                           },
                           [
-                            user.verified
-                              ? _c(
-                                  "span",
-                                  { staticClass: "badge badge-success" },
-                                  [_vm._v("Verified")]
-                                )
-                              : _c(
-                                  "span",
-                                  {
-                                    staticClass:
-                                      "badge badge-warning text-white",
-                                  },
-                                  [_vm._v("Un-verified")]
+                            _c(
+                              "span",
+                              {
+                                staticClass: "badge text-white",
+                                class:
+                                  user.verified != 0
+                                    ? "badge-success"
+                                    : "badge-warning",
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(
+                                    user.verified != 0
+                                      ? "Verified"
+                                      : "Un-verified"
+                                  )
                                 ),
+                              ]
+                            ),
                           ]
                         ),
                       ]),
@@ -126985,12 +127024,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_BussinessCategory__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/BussinessCategory */ "./resources/js/components/BussinessCategory.vue");
 /* harmony import */ var _components_EditMerchant__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/EditMerchant */ "./resources/js/components/EditMerchant.vue");
 /* harmony import */ var _components_ProductListCard__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/ProductListCard */ "./resources/js/components/ProductListCard.vue");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -127048,54 +127081,15 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_8___default.a({
   el: '#app',
   data: {
     order_products: null,
-    modal_product: null,
-    test: "",
-    type: 'customer',
     order: null,
-    add_to_cart_form: {
-      size: '',
-      quantity: 1
-    },
-    cart: {
-      quantity: [0]
-    },
-    homepage: {
-      product: null,
-      home_section_id: ''
-    },
-    showDiscount: false,
-    product: null,
-    discount: {
-      end_date: '',
-      end_time: '',
-      new_price: 0
-    },
-    form_buy: {}
+    product: null
   },
   methods: {
-    quickView: function quickView(product) {
-      $("#quick-view").modal("show");
-      var sizes = JSON.parse(product.sizes);
-
-      if (sizes.length > 0) {
-        this.add_to_cart_form.size = sizes[0];
-      }
-
-      this.modal_product = _objectSpread(_objectSpread({}, product), {}, {
-        sizes: JSON.parse(product.sizes)
-      });
-    },
-    changeQuantity: function changeQuantity(num) {
-      if (this.add_to_cart_form.quantity >= this.modal_product.client_max || this.add_to_cart_form.quantity <= 0) return;
-      this.add_to_cart_form.quantity++;
-    },
-    addToCart: function addToCart() {
-      console.log("Added To card");
-    },
     showOrderProducts: function showOrderProducts(order) {
       var _this = this;
 
       this.$Progress.start();
+      console.log(order);
       this.order = order;
       axios.get("/order/" + order.id).then(function (resp) {
         _this.order_products = resp.data.data;
@@ -127103,6 +127097,21 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_8___default.a({
         _this.$Progress.finish();
       })["catch"](function () {
         _this.$Progress.fail();
+      });
+      $("#exampleModal").modal("show");
+    },
+    adminshowOrderProducts: function adminshowOrderProducts(order) {
+      var _this2 = this;
+
+      this.$Progress.start();
+      console.log(order);
+      this.order = order;
+      axios.get("/admin/order/" + order.id).then(function (resp) {
+        _this2.order_products = resp.data.data;
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        _this2.$Progress.fail();
       });
       $("#exampleModal").modal("show");
     },
@@ -127123,7 +127132,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_8___default.a({
       });
     },
     deleteProduct: function deleteProduct(product) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$swal({
         title: 'Are you sure?',
@@ -127135,21 +127144,21 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_8___default.a({
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.value) {
-          _this2.$Progress.start();
+          _this3.$Progress.start();
 
           axios["delete"]("/admin/products/" + product.id).then(function (resp) {
-            _this2.$Progress.finish();
+            _this3.$Progress.finish();
 
-            _this2.$swal('Deleted!', 'Product has been deleted Successfully.', 'success').then(function (result) {
+            _this3.$swal('Deleted!', 'Product has been deleted Successfully.', 'success').then(function (result) {
               if (result.value) {
                 window.location.reload(true);
                 return false;
               }
             });
           })["catch"](function (err) {
-            _this2.$Progress.fail();
+            _this3.$Progress.fail();
 
-            _this2.$swal('Deleted!', 'Item has been deleted!', 'success').then(function (result) {
+            _this3.$swal('Deleted!', 'Item has been deleted!', 'success').then(function (result) {
               if (result.value) {
                 window.location.reload(true);
                 return false;
@@ -127160,7 +127169,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_8___default.a({
       });
     },
     deleteMerchant: function deleteMerchant(merchant) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.$swal({
         title: 'Are you sure?',
@@ -127172,51 +127181,12 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_8___default.a({
         confirmButtonText: 'Yes, delete!'
       }).then(function (result) {
         if (result.value) {
-          _this3.$Progress.start();
-
-          axios["delete"]("/agent/merchants/" + merchant.id).then(function (resp) {
-            _this3.$Progress.finish();
-
-            _this3.$swal('Deleted!', 'Merchant has been deleted Successfully.', 'success').then(function (result) {
-              if (result.value) {
-                window.location.reload(true);
-                return false;
-              }
-            });
-          })["catch"](function (err) {
-            _this3.$Progress.fail();
-
-            _this3.$swal('Deleted!', 'Merchant has been deleted!', 'success').then(function (result) {
-              if (result.value) {
-                window.location.reload(true);
-                return false;
-              }
-            });
-          });
-        }
-      });
-    },
-    changeHomeSlider: function changeHomeSlider(product) {
-      var _this4 = this;
-
-      this.$swal({
-        title: 'Are you sure?',
-        text: "You want to ".concat(product.home_slider ? "remove" : "add", " this product to home slider!"),
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: "Yes, ".concat(product.home_slider ? "Remove" : "Add", " it!")
-      }).then(function (result) {
-        if (result.value) {
           _this4.$Progress.start();
 
-          axios.put("/change-slider/" + product.id, {
-            'value': product.home_slider ? false : true
-          }).then(function (resp) {
+          axios["delete"]("/agent/merchants/" + merchant.id).then(function (resp) {
             _this4.$Progress.finish();
 
-            _this4.$swal('Update Slider!', 'Product has been Updated Done.', 'success').then(function (result) {
+            _this4.$swal('Deleted!', 'Merchant has been deleted Successfully.', 'success').then(function (result) {
               if (result.value) {
                 window.location.reload(true);
                 return false;
@@ -127225,7 +127195,12 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_8___default.a({
           })["catch"](function (err) {
             _this4.$Progress.fail();
 
-            _this4.$swal('Update Slider!', 'Slider Update has been failed.', 'warning');
+            _this4.$swal('Deleted!', 'Merchant has been deleted!', 'success').then(function (result) {
+              if (result.value) {
+                window.location.reload(true);
+                return false;
+              }
+            });
           });
         }
       });
@@ -127243,47 +127218,9 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_8___default.a({
         _this5.$Progress.fail();
       });
       $("#productModal").modal("show");
-    },
-    clearDiscount: function clearDiscount() {
-      this.discount.new_price = 0;
-      this.discount.end_date = "";
-      this.discount.end_time = "";
-      this.showDiscount = false;
-    },
-    submitDiscount: function submitDiscount() {
-      var _this6 = this;
-
-      this.$Progress.start();
-      axios.post("/discount", {
-        end_time: this.discount.end_date + " " + this.discount.end_time,
-        price: this.discount.new_price,
-        product_id: this.product.id
-      }).then(function (resp) {
-        _this6.$Progress.finish();
-
-        _this6.clearDiscount();
-
-        _this6.product.discount = resp.data;
-      })["catch"](function (err) {
-        _this6.$Progress.fail();
-
-        console.log("error");
-      });
     }
   },
-  created: function created() {
-    var _this7 = this;
-
-    this.$on("quick-view", function (product) {
-      $("#quick-view").modal("show");
-      var sizes = product.sizes;
-
-      if (sizes.length > 0) {
-        _this7.add_to_cart_form.size = sizes[0];
-      }
-
-      _this7.modal_product = _objectSpread({}, product);
-    }); // this.$on("fillAddress", address => {
+  created: function created() {// this.$on("fillAddress", address => {
     //     this.form_buy.address = address
     // })
   }

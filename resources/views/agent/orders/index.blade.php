@@ -1,10 +1,10 @@
-@extends('layouts.Admin')
+@extends('layouts.admin')
 @section('title','Agent | Order List')
 @section('content')
     <div class="container" id="app">
         <vue-progress-bar></vue-progress-bar>
         <div class="row justify-content-center">
-            <div class="col-md-12">
+            <div class="col-md-12 px-0">
                 <div class="card">
                     <div class="card-header">
                         <h5>List All Orders</h5>
@@ -17,7 +17,9 @@
                                 <th>Order_ID</th>
                                 <th>Price</th>
                                 <th>Items</th>
-                                <th>Customer</th>
+                                <th>Merchant_Address</th>
+                                <th>Merchant_Names</th>
+                                <th>Merchant_Phone</th>
                                 <th>Done_At</th>
                                 <th>Status</th>
                             </tr>
@@ -28,64 +30,26 @@
                                     <td>{{$loop->iteration}}</td>
 
                                     <td>
-{{--                                        <div--}}
-{{--                                            style="display: none"> {{ $order->customer }}{{ $order->paymentMode }}{{ $order->deliveryFee }}{{ $order->province }}--}}
-{{--                                            {{ $order->district }}{{ $order->sector }}{{ $order->cell }}{{ $order->village }}</div>--}}
                                         <a @click.prevent="showOrderProducts({{ $order }})" href="#"
                                            class="text-primary"
                                            data-toggle="tooltip" data-placement="top"
-                                           title="Click To View Products">#{{ $order->order_id }}</a>
+                                           title="Click To View Order Products">#{{$order->order_id}}</a>
                                     </td>
-                                    <td>{{ number_format($order->price) }}Rwf</td>
-                                    <td> {{ $order->products->count() }}</td>
+                                    <td>{{ number_format($order->price)}} Rwf</td>
+                                    <td> {{$order->products->count()}}</td>
                                     <td>
-                                        @if($order->customer)
-                                            <a href="/chatbox/seller?customer={{ $order->customer_id }}" class="text-primary">
-                                                @if($order->information)
-                                                    {{ $order->information->name }}
-                                                    <br> {{ $order->information->phone }}
-                                                @else
-                                                    {{ $order->customer->email }}
-                                                    <br> {{ $order->customer->phone }}
-                                                @endif
-                                            </a>
-                                        @endif
+                                            {{$order->merchant->sector}},{{$order->merchant->village}} {{$order->merchant->cell}}
                                     </td>
-{{--                                    <td>--}}
-{{--                                        @foreach($order->sellers as $seller)--}}
-{{--                                            {{ $seller->name }},--}}
-{{--                                        @endforeach--}}
-{{--                                    </td>--}}
                                     <td>
-                                        @if($order->information)
-                                            {{ $order->information->address }}
-                                        @else
-                                            <span class="text-danger">No address found</span>
-                                        @endif
+                                               {{$order->merchant->first_name}} {{$order->merchant->last_name}}
                                     </td>
+                                    <td>{{$order->merchant->phone_number}}</td>
                                     <td>{{$order->created_at->toDateString()}}</td>
                                     <td>
-                                        @if(!$order->delivered)
-                                            <form method="post" onsubmit="return confirm('Deliver the order?')"
-                                                  action="/order/delivered/{{$order->id}}">
-                                                {{ method_field("PUT") }}
-                                                @csrf
-                                                <button type="submit" data-toggle="tooltip" data-placement="top"
-                                                        title="Deliver The Order" href="#"
-                                                        class="btn-icon btn-icon-only btn-pill btn btn-outline-success"
-                                                ><i
-                                                        class="feather icon-check btn-icon-wrapper"> </i></button>
-                                            </form>
+                                        @if($order->seen != 0)
+                                            <span class="badge badge-success">Seen</span>
                                         @else
-                                            @if($order->delivered)
-                                                <span
-                                                    class="badge badge-primary">Delivered At {{ $order->delivered_at }}</span>
-                                                <br>
-                                            @endif
-                                            @if($order->status)
-                                                <span
-                                                    class="badge badge-success">Received At {{ $order->received_at }}</span>
-                                            @endif
+                                            <span class="badge badge-danger">Not Yet Seen</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -112,33 +76,27 @@
                         </center>
                         <div v-else class="row">
                             <div class="col-md-6">
-                                <p><strong>Customer Name:</strong> @{{order.customer.name}}</p>
-                                <p><strong>Customer Email:</strong> @{{ order.customer.email }}</p>
-                                <p><strong>Customer Phone:</strong> @{{ order.customer.phone }}</p>
-                                <p><strong>Payment Mode:</strong> @{{ order.payment_mode.name }}</p>
-                                <p><strong>Price:</strong> <span class="badge badge-primary">@{{ order.price | currency("Rwf") }}</span>
+                                <p><strong>Merchant Names:</strong> @{{order.merchant.first_name + " " + order.merchant.last_name}}</p>
+                                <p><strong>Merchant Phone:</strong> @{{ order.merchant.phone_number }}</p>
+                                <p><strong>Price:</strong> <span class="badge badge-primary">@{{ order.price }} Rwf</span>
                                 </p>
                                 <p><strong>Done At:</strong> @{{ order.created_at }}</p>
                             </div>
                             <div class="col-md-6">
-                                <p><strong>Shipping:</strong><span class="badge badge-primary">@{{ order.deliveryFee.title }}</span>
-                                </p>
-                                <p><strong>Address:</strong>@{{order.customer.address }}</p>
-                                <p>
-                                    <a :href="'/chatbox/seller?customer='+order.customer_id"> <span
-                                            class="fa fa-comment"></span> Chat with customer</a>
-                                </p>
+                                <p><strong>Province:</strong>@{{order.merchant.province }}</p>
+                                <p><strong>District:</strong>@{{order.merchant.district }}</p>
+                                <p><strong>Sector:</strong>@{{order.merchant.sector }}</p>
+                                <p><strong>Village:</strong>@{{order.merchant.village }}</p>
+                                <p><strong>Cell:</strong>@{{order.merchant.cell }}</p>
                             </div>
                             <hr>
                             <div class="col-sm-12 table-responsive">
                                 <table class="table cart-table table-responsive-xs">
                                     <thead>
                                     <tr class="table-head">
-                                        <th scope="col">product</th>
-                                        <th scope="col">price</th>
-                                        <th scope="col">Seller</th>
-                                        <th scope="col">description</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Description</th>
                                     </tr>
                                     </thead>
                                     <tbody v-for="product in order_products">
@@ -146,22 +104,18 @@
                                         <td>
                                             <a class="image_link" :href="product.product_image">
                                                 <img :src="product.product_image" class="product_image" alt="Image">
-{{--                                                <img src="/img/no-image.jpg" class="product_image" alt="Image">--}}
                                             </a>
                                             <a :href="'/item/'+product.slug">@{{ product.product }}</a>
                                         </td>
                                         <td>
-                                            <h5>@{{ product.price | currency("Rwf") }}</h5>
+                                            <h5>@{{ product.price}} Rwf</h5>
                                         </td>
                                         <td>
-                                            @{{ product.seller.email }}
-                                        </td>
-                                        <td>
-                                            <span v-if="product.size">Size: @{{product.size}}</span>
+                                            <span v-if="product.tags.length !=0 ">Tags: <span v-for="tag in product.tags" class="badge badge-success ml-1">@{{tag}}</span></span>
                                             <br>
                                             <span>Qty: @{{ product.quantity }}</span>
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <form v-if="!product.delivered" method="post"
                                                   onsubmit="return confirm('Product Delivered?')"
                                                   :action="'/order/product/delivered/'+product.id">
@@ -178,7 +132,7 @@
                                                 <br>
                                                 <span v-if="product.received" class="badge badge-success">Received At @{{ product.received_at }}</span>
                                             </div>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     </tbody>
                                 </table>

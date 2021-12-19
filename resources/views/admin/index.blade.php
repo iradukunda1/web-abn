@@ -83,11 +83,11 @@
                     <div class="card-body">
                         <div class="row align-items-center m-b-30">
                             <div class="col">
-                                <h6 class="m-b-5 text-white">Most Income Product</h6>
-                                <h4 class="m-b-0 f-w-700 text-white">Rice No2</h4>
+                                <h6 class="m-b-5 text-white">Total Requests</h6>
+                                <h4 class="m-b-0 f-w-700 text-white">{{$total_request}}</h4>
                             </div>
                             <div class="col-auto">
-                                <i style="color: #00bcd4 !important;" class="fas fa-money-bill-alt f-18"></i>
+                                <i style="color: #00bcd4 !important;" class="fas fa-cart-arrow-down f-18"></i>
                             </div>
                         </div>
                     </div>

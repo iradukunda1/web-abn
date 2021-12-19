@@ -12,5 +12,5 @@
 @endsection
 @push('scripts')
     @include("includes.datatable")
-    <script type="text/javascript" src="/js/app.js"></script>
+    <script type="text/javascript" src="/js/app.js?update=true"></script>
 @endpush

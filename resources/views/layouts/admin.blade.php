@@ -124,32 +124,45 @@
                         <li class="header-notification">
                             <div class="dropdown-primary dropdown">
 
-                                <div class="dropdown-toggle" data-toggle="dropdown">
+                            <div class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="feather icon-bell"></i>
+                                    @if($un_seen>0 || $new_agent >0)
                                         <span
-                                            class="badge bg-c-red">3</span>
+                                            class="badge bg-c-red">{{ $un_seen + $new_agent}}</span>
+                                    @endif
                                 </div>
 
+                                @if($un_seen>0 || $new_agent>0)
                                     <ul class="show-notification notification-view dropdown-menu"
                                         data-dropdown-in="fadeIn"
                                         data-dropdown-out="fadeOut">
                                         <li>
                                             <h6>Notifications</h6>
+                                            @if($un_seen>0 || $new_agent>0)
                                                 <label class="label label-danger">New</label>
+                                            @endif
                                         </li>
                                         <li>
                                             <div class="media">
                                                 <div class="media-body">
-                                                        <h5 class="notification-user"><b>Undelivered Requests</b></h5>
-                                                        <p class="notification-msg">You have 3
-                                                            undelivered
-                                                            requests(s)
+                                                    @if($un_seen>0)
+                                                        <h5 class="notification-user"><b>Un Seen orders</b></h5>
+                                                        <p class="notification-msg">You have {{ $un_seen }}
+                                                            un-seen
                                                             orders.</p>
                                                         <br/>
+                                                    @endif
+                                                    @if($new_agent>0)
+                                                        <h5 class="notification-user"><b>Unread Verified User</b></h5>
+                                                        <p class="notification-msg">You have {{ $new_agent }}
+                                                            unverified user(s).</p>
+                                                        <br/>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </li>
                                     </ul>
+                                @endif
                             </div>
                         </li>
                         @endrole

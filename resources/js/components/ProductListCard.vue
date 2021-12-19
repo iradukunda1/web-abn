@@ -53,9 +53,9 @@
                       class="select-product bg-info"
                       :value="product"
                       size="lg"
-                      @change="changeProduct(product)"
                       v-model="selectedProducts"
                       style="cursor: pointer;"
+                      v-show="product.quantity > 0"
                       title="select product to be included in request"
                     />
                     <a
@@ -84,7 +84,7 @@
       </button>
     </div>
     <div class="request-form-container" v-else>
-      <form @submit.prevent>
+      <form @submit.prevent="submit">
         <div
           class="form-row"
           v-if="selectedProducts && selectedProducts.length > 0"
@@ -112,17 +112,27 @@
                 disabled
               />
             </div>
+            <div class="form-group col-md-8">
+              <label>Available Quantity</label>
+              <input
+                type="number"
+                class="form-control"
+                v-model="product.quantity"
+                disabled
+              />
+            </div>
             <div class="form-group col-md-6">
               <label>Required Quantity</label>
               <input
                 type="number"
                 class="form-control"
-                v-model="form.quantity"
+                v-model.number="product.request_quantity"
                 :placeholder="`Quantity Required for product No.${index + 1}`"
                 autocomplete="off"
-                :class="{ 'is-invalid': form.errors.has('quantity') }"
+                required
+                :max="`${product.quantity}`"
+                min=1
               />
-              <has-error :form="form" field="quantity"></has-error>
             </div>
             <div class="row">
               <div class="col-md-12">
@@ -154,8 +164,8 @@
           <div class="form-group col-md-12">
             <button
               class="btn btn-primary float-right"
-              @click="submit"
-              v-if="form.merchant.length !=0 && selectedProducts.length != 0 && form.quantity != ''"
+              type="submit"
+              v-if="form.merchant.length !=0 && selectedProducts.length != 0"
             >
               Submit Order
             </button>
@@ -213,7 +223,7 @@ export default {
         });
     },
     submit() {
-      this.form.products.push(this.selectedProducts[0]);
+      this.form.products.push(this.selectedProducts);
       this.$Progress.start();
       this.form
         .post("/agent/orders")
@@ -222,6 +232,7 @@ export default {
           this.form.clear();
           this.form.reset();
           this.toast("Congratulations", resp.data, "success");
+          window.location=""
         })
         .catch(() => {
           this.$Progress.fail();
@@ -234,9 +245,6 @@ export default {
     },
     details(id) {
       this.$emit("product-details", id);
-    },
-    changeProduct(e) {
-      // console.log(this.selectedProducts);
     },
     showCheckBox(product) {
       this.selected = product.slug;

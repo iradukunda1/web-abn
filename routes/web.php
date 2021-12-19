@@ -1,12 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Merchant;
 use App\User;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
+    //return view('welcome');
 });
 
 Route::get('/contact-us','HomeController@contact')->name('contact-us');
@@ -14,8 +15,8 @@ Route::get('/about-us','HomeController@about')->name('about');
 Route::get('/services','HomeController@services')->name('services');
 
 Route::resource('/products', ProductsController::class);
-
-
+Route::get('/product-detail/{slug}','HomeController@productdetail')->name('productdetail');
+Route::get('/checkout','HomeController@checkout')->name('checkout');
 Route::get('/home', 'HomeController@index')->name('home')->middleware('check_redirection');
 
 Route::group(['middleware' => ['auth']], function () {
@@ -42,11 +43,14 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get("/product/images/{product}", "AdminProductController@image");
             Route::post("/product/images/{product}", "AdminProductController@storeImages");  
             Route::get("/profile", "AdminUserManagementController@getProfile");
+            Route::get('/orders/list', 'OrderController@adminList');
+            Route::get('/order/{order}','OrderController@adminShow');
+
         });
     });    
     Route::prefix('agent')->group(function () {
         Route::middleware('check_is_agent')->group(function () {
-            Route::get('/', 'AgentController@index');     
+            Route::get('/', 'AgentController@index'); 
             Route::get('/agent/organizations/list', 'AgentOrganizationManagement@index');      
             Route::post("/profile/{user}", "AdminUserManagementController@profile");
             Route::get("/profile", "AdminUserManagementController@getProfile");
@@ -61,7 +65,10 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 });
+Route::get('/order/{order}','OrderController@agentShow');
+
 Route::get('/products/details/{product}', 'AdminProductController@show');
+
 Route::get("/api/user", function () {
     $user = auth()->user();
     $user->type = $user->roles->first()->name;

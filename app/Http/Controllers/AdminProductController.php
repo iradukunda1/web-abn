@@ -160,10 +160,12 @@ class AdminProductController extends Controller
         $available_products = Product::where("status", 1)->get();
         foreach($available_products as $product){
             $product['tags'] = json_decode($product['tags']);
+            $product['request_quantity'] = "1";
         }
         $unavailable_products = Product::where("status", 0)->get();
         foreach($unavailable_products as $product){
             $product['tags'] = json_decode($product['tags']);
+            $product['request_quantity'] = "1";
         }
         return view("agent.products.list", compact('available_products','unavailable_products'));
     }

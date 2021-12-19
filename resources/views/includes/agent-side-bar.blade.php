@@ -3,7 +3,7 @@
         <div class="pcoded-inner-navbar main-menu pb-4">
             <ul class="pcoded-item pcoded-left-item">
                 <li>
-                    <a class="waves-effect waves-dark" href="/agent">
+                    <a class="waves-effect waves-dark" href="/products">
                         <span class="pcoded-micon">
                         <i class="feather icon-watch"></i>
                         </span>
@@ -82,12 +82,7 @@
                     </a>
                     <ul class="pcoded-submenu">
                         <li>
-                            <a class="waves-effect waves-dark" href="#">
-                                <span class="pcoded-mtext">New Requests</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="waves-effect waves-dark" href="#">
+                            <a class="waves-effect waves-dark" href="/agent/orders">
                                 <span class="pcoded-mtext">All Requests</span>
                             </a>
                         </li>

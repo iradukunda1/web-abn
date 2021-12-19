@@ -53,7 +53,7 @@
                                 <tbody>
                                 @foreach($products as $product)
                                     <tr>
-                                        <td>{{$product->id}}</td>
+                                        <td>{{$loop->iteration}}</td>
                                         <td data-toggle="tooltip" data-placement="top" title=" {{ $product->title }}">
                                             <a href="{{ $product->product_image }}" class="image_link" target="_blank">
                                                 <img src="{{ $product->product_image }}" alt="" class="product_image">

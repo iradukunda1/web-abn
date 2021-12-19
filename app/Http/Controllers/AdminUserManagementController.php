@@ -43,7 +43,8 @@ class AdminUserManagementController extends Controller
     public function index(Request $request)
     {
         if($request->role == "all"){
-            return response(UserResource::collection(User::latest()->where("active", 1)->get()));
+            $users = Role::where("slug", "user")->first()->users->where("active", 1);
+            return response(UserResource::collection($users));
         }elseif($request->role == "agent"){
             $agent = Role::where("slug", "agent")->first()->users->where("active", 1);
             return response(UserResource::collection($agent));

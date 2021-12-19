@@ -102,7 +102,7 @@
                                     @endrole
                                     @role("agent")
                                     <li class="tx-f15"><a href="/agent/profile">Account</a></li>
-                                    <li class="tx-f15"><a href="#">My Commissions</a></li>
+                                    <li class="tx-f15"><a href="/agent">My Dashboard</a></li>
                                     @endrole
                                     <li class="tx-f15"><a href="/logout">Logout</a></li>
                                 </ul>
@@ -137,7 +137,9 @@
                             <ul class="main-nav nav">
                                 <li><a href="/home" class="text-decoration-none"><i class="fa fa-home"></i> Home</a></li>
                                 <li><a href="/products" class="text-decoration-none">Products</a></li>
-                                <li><a href="#" class="text-decoration-none">Make Request</a></li>
+                                @role('agent')
+                                    <li><a href="a/gent/products/list" class="text-decoration-none">Make Request</a></li>
+                                @endrole
                                 @role("agent")
                                     <li class="show-on-hover">
                                         <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">Register</a> -->
@@ -148,9 +150,9 @@
                                                     class="ion-ios-arrow-down ml-1"></i></button>
                                             <ul class="dropdown-menu animation slideDownIn"
                                                 aria-labelledby="dropdownMenuButton-2">
-                                                <li class="tx-f15"><a class="text-black-50" href="#">User</a></li>
+                                                <!-- <li class="tx-f15"><a class="text-black-50" href="#">User</a></li> -->
                                                 <li class="tx-f15"><a class="text-black-50" href="/agent/merchants/create">Merchants</a></li>
-                                                <li class="tx-f15"><a class="text-black-50" href="#">Organization</a></li>
+                                                <!-- <li class="tx-f15"><a class="text-black-50" href="#">Organization</a></li> -->
                                             </ul>
                                         </a>
                                     </li>
