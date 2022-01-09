@@ -34,8 +34,8 @@
                     </div>
                     <div class="mb-4 fa-2x d-flex">
                                     <div class="product-size ml-0">
-                                        <span>Tags </span>
                                         @if($product->tags && json_decode($product->tags))
+                                                <span>Tags </span> 
                                                 @foreach(json_decode($product->tags) as $tag)
                                                     <span  class="cursor-pointer badge badge-primary">{{ $tag }}</span>
                                                 @endforeach
@@ -56,7 +56,7 @@
             <div class="feature-area single-product-responsive  mb-30px">
                 <div class="mx-5">
                     <div class="section-title">
-                        <h2 class="section-heading pl-4">{{count($recommended_products)}} Other Products In The Same
+                        <h2 class="section-heading pl-4">{{$count_products}} Other Products In The Same
                             Category:</h2>
                     </div>
                     <div class="feature-slider-wrapper swiper-wrapper row mx-0 w-100">
@@ -81,6 +81,9 @@
                         </div>
                         @endforeach
                     </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                        {!!  $recommended_products->appends($_GET)->links() !!}
                 </div>
             </div>
         @endif

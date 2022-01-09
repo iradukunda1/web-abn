@@ -60,14 +60,6 @@
                     </a>
                 </li>
                 <li>
-                    <a class="waves-effect waves-dark" href="/admin/users/agents">
-                        <span class="pcoded-micon">
-                        <i class="feather icon-users"></i>
-                        </span>
-                        <span class="pcoded-mtext">List Agents</span>
-                    </a>
-                </li>
-                <li>
                     <a class="waves-effect waves-dark" href="/admin/merchants/list">
                         <span class="pcoded-micon">
                         <i class="feather icon-users"></i>
@@ -75,7 +67,33 @@
                         <span class="pcoded-mtext">Merchants</span>
                     </a>
                 </li>
+                <ul class="pcoded-item pcoded-left-item">
+                <li class="pcoded-hasmenu">
+                    <a class="waves-effect waves-dark" href="javascript:void(0)">
+                        <span class="pcoded-micon"><i class="feather icon-user"></i></span>
+                        <span class="pcoded-mtext">Agent Management</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                         <li>
+                            <a class="waves-effect waves-dark" href="{{ route('user.province') }}">
+                                <span class="pcoded-mtext">Province Manager</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="{{ route('user.district') }}">
+                                <span class="pcoded-mtext">District Manager </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="/admin/users/agents">
+                                <span class="pcoded-mtext">Sector Agent </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
+            </ul>
+
             <div class="pcoded-navigation-label">Requests Management</div>
             <ul class="pcoded-item pcoded-left-item">
                 <li class="pcoded-hasmenu">

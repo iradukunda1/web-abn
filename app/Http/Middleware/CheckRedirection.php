@@ -15,6 +15,12 @@ class CheckRedirection
         }elseif (Auth::check() && (Auth::user()->hasRole("agent"))) {
             return redirect("/agent");
         }
+        elseif(Auth::check()&&(Auth::user()->hasRole("reporter_1"))){
+            return redirect("/province");
+        }
+        elseif(Auth::check()&&(Auth::user()->hasRole("reporter_2"))){
+            return redirect("/district");
+        }
         return $response;
     }
 }

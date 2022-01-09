@@ -14,7 +14,7 @@ class CheckAgent
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {        
+    {
         if (Auth::check() && (Auth::user()->hasRole("agent"))) {
             return $response = $next($request);
         }

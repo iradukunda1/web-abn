@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends JsonResource
 {
@@ -15,6 +16,7 @@ class UserResource extends JsonResource
             "last_name" => $this->last_name,
             "country" => $this->country,
             "verified"=> $this->verified,
+            "user_address"=> $this->user_address->first(),
             "email" => $this->email,
             "role" => $this->roles->first()->name,
             "role_id" => $this->roles->first()->id,

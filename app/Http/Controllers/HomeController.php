@@ -38,8 +38,10 @@ class HomeController extends Controller
                 $product_id[] = $item;
             }
         }
-        $recommended_products = Product::latest()->whereIn("id", $product_id)->where("id", "!=", $product->id)->take(12)->get();
-        return view('pages.product-detail',compact('product','recommended_products'));
+        $recommended_products = Product::latest()->whereIn("id", $product_id)->where("id", "!=", $product->id);
+        $count_products = $recommended_products->get()->count();
+        $recommended_products = $recommended_products->paginate(15);
+        return view('pages.product-detail',compact('product','recommended_products','count_products'));
     }
 
     public function checkout()
