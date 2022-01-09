@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Http\Resources\UserResource;
+use App\userProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +12,6 @@ use jeremykenedy\LaravelRoles\Models\Role;
 
 class AdminUserManagementController extends Controller
 {
-    
     private function imageUploader($image): string
     {
         $uploadedFileUrl = Cloudinary()->upload($image)->getSecurePath();
@@ -39,7 +39,76 @@ class AdminUserManagementController extends Controller
         $auth = auth()->user();
         return view("admin.users.agents.index", compact("auth"));
     }
-    
+    public function province(){
+        $auth=auth()->user();
+        return view('admin.users.report.province',['auth'=>$auth]);
+    }
+    public function district(){
+        $auth=auth()->user();
+
+        return view('admin.users.report.district',['auth'=>$auth]);
+    }
+    public function createProvince(){
+        return view('admin.users.report.create_province');
+    }
+    public function createDistrict(){
+        return view('admin.users.report.create_district');
+    }
+
+    public function storeProvince(Request $request){
+       $request->validate([
+            'email' => ['required', 'string', 'max:255', 'unique:users'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone_number' => 'required|regex:/^(07[8,2,3,9])[0-9]{7}$/',
+        ]);
+
+        $user = User::create([
+            'first_name' => $request['first_name'],
+            'last_name'=>$request['last_name'],
+            'country'=>$request['country'],
+            'email' => $request['email'],
+            'phone_number'=>$request['phone_number'],
+            'password' => Hash::make('password'),
+
+        ]);
+         $district=userProfile::create([
+            'user_id'=>$user->id,
+            'province'=>$request->province,
+
+        ]);
+        $role = Role::where("slug", "reporter_1")->first();
+        $user->attachRole($role);
+        return response(new UserResource($user));
+    }
+    public function storeDistrict(Request $request){
+       $request->validate([
+            'email' => ['required', 'string', 'max:255', 'unique:users'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'district'=>['required'],
+            'phone_number' => 'required|regex:/^(07[8,2,3,9])[0-9]{7}$/',
+        ]);
+
+        $user = User::create([
+            'first_name' => $request['first_name'],
+            'last_name'=>$request['last_name'],
+            'country'=>$request['country'],
+            'email' => $request['email'],
+            'phone_number'=>$request['phone_number'],
+            'password' => Hash::make('password'),
+        ]);
+        $district=userProfile::create([
+            'user_id'=>$user->id,
+            'province'=>$request['province'],
+            'district'=>$request['district'],
+        ]);
+        $role = Role::where("slug", "reporter_2")->first();
+        $user->attachRole($role);
+        return response(new UserResource($user));
+    }
+
+
     public function index(Request $request)
     {
         if($request->role == "all"){
@@ -134,11 +203,21 @@ class AdminUserManagementController extends Controller
 
             }
         }
-        if ($request["avatar"] !== $user->avatar) {
-            $request["avatar"] = $this->imageUploader($request->avatar);
+        if($request->avatar){
+            if ($request["avatar"] != $user->avatar) {
+                $request["avatar"] = $this->imageUploader($request->avatar);
+            }
+        }else{
+            $request["avatar"] = $user->avatar;
         }
-        $user->update(["country" => $request->country, "avatar" => $request->avatar, "email" => $request->email, "phone_number" => $request->phone_number]);
-
+        $user->update([
+            "country" => $request->country,
+            "avatar" => $request->avatar, 
+            "email" => $request->email,
+            "first_name" => $request->first_name,
+            "last_name" => $request->last_name,
+            "phone_number" => $request->phone_number
+        ]);
 
         return $user;
 

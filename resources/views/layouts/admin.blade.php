@@ -181,7 +181,7 @@
                                 </div>
                                 <ul class="show-notification profile-notification dropdown-menu"
                                     data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                    @role('admin')                            
+                                    @role('admin')
                                     <li>
                                         <a href="/admin/profile">
                                             <i class="feather icon-user"></i> Profile
@@ -225,6 +225,12 @@
                 @endrole
                 @role('agent')
                     @include("includes.agent-side-bar")
+                @endrole
+                @role('reporter_1')
+                @include("includes.province_reporter-side-bar")
+                @endrole
+                @role('reporter_2')
+                @include("includes.district_reporter-side-bar")
                 @endrole
                 <div class="pcoded-content">
 

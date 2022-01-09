@@ -2,7 +2,7 @@
 @section('title', 'Admin | Home')
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row w-100 mx-0">
             <div class="col-xl-4 col-md-6">
                 <div class="card prod-p-card card-success">
                     <div class="card-body">
@@ -88,6 +88,36 @@
                             </div>
                             <div class="col-auto">
                                 <i style="color: #00bcd4 !important;" class="fas fa-cart-arrow-down f-18"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card prod-p-card card-blue">
+                    <div class="card-body">
+                        <div class="row align-items-center m-b-30">
+                            <div class="col">
+                                <h6 class="m-b-5 text-white">Total Province Managers</h6>
+                                <h3 class="m-b-0 f-w-700 text-white">{{$total_province_managers}}</h3>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users text-c-blue f-18"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6">
+                <div class="card prod-p-card card-yellow">
+                    <div class="card-body">
+                        <div class="row align-items-center m-b-30">
+                            <div class="col">
+                                <h6 class="m-b-5 text-white">Total District Managers</h6>
+                                <h3 class="m-b-0 f-w-700 text-white">{{$total_district_managers}}</h3>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users text-c-blue f-18"></i>
                             </div>
                         </div>
                     </div>

@@ -36,6 +36,18 @@ class RolesTableSeeder extends Seeder
                 'description' => 'Agent Role',
                 'level'       => 1,
             ],
+            [
+                'name'        => 'Reporter_1',
+                'slug'        => 'reporter_1',
+                'description' => 'Province Manager Role',
+                'level'       => 1,
+            ],
+            [
+                'name'        => 'Reporter_2',
+                'slug'        => 'reporter_2',
+                'description' => 'District Manager Role',
+                'level'       => 1,
+            ],
         ];
 
         /*

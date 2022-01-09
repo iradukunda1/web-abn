@@ -18,6 +18,7 @@
               <th>Phone_Number</th>
               <th>Names</th>
               <th>Country</th>
+              <th v-if="role == 'agent'">Sector</th>
               <th>Role</th>
               <th>Verified</th>
               <th>Created</th>
@@ -30,7 +31,8 @@
               <td>{{ user.id == auth.id ? "Me" : user.email }}</td>
               <td>{{ user.phone_number }}</td>
               <td class="text-capitalize">{{ user.first_name + "  " + user.last_name }}</td>
-              <td>{{ user.country }}</td>
+              <td>{{ user.country  }}</td>
+              <td v-if="role == 'agent'" :class="user.user_address != null && user.user_address.sector != null ? ' ': 'text-danger'">{{ user.user_address != null && user.user_address.sector != null ? user.user_address.sector : 'not-set'  }}</td>
               <td>{{ user.role }}</td>
               <td>
                     <a href="#" @click="changeVerified(user)"
@@ -41,9 +43,6 @@
                 </td>
               <td>{{ user.created_at }}</td>
               <td>
-                                           <!-- <a href="#" class="btn-icon btn-icon-only btn-pill btn btn-outline-info"
-                                              @click="editModal(user)"><i
-                                            class="feather icon-edit btn-icon-wrapper"> </i></a> -->
                 <a
                   href="#"
                   class="btn-icon btn-icon-only btn-pill btn btn-outline-danger"
@@ -59,114 +58,17 @@
         </div>
       </div>
     </div>
-    <div
-      class="modal fade"
-      id="userModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog animate-top" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              {{ updateMode ? "Update " : "Create " }} User
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <form @submit.prevent="updateMode ? updateUser() : storeUser()">
-            <div class="modal-body">
-              <div class="form-group">
-                <label>First-Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="form.first_name"
-                  required
-                  :class="{ 'is-invalid': form.errors.has('first_name') }"
-                />
-                <has-error :form="form" field="first_name"></has-error>
-              </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="form.email"
-                  required
-                  :class="{ 'is-invalid': form.errors.has('email') }"
-                />
-                <has-error :form="form" field="email"></has-error>
-              </div>
-              <div class="form-group">
-                <label>Select user type</label>
-                <select
-                  class="form-control"
-                  v-model="form.role_id"
-                  required
-                  :class="{ 'is-invalid': form.errors.has('role_id') }"
-                >
-                  <option v-for="role in roles" :key="role.id" :value="role.id"
-                    >{{ role.name }}
-                  </option>
-                </select>
-                <has-error :form="form" field="role"></has-error>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="submit"
-                :disabled="form.busy"
-                class="btn btn-primary btn-raised"
-              >
-                {{ form.busy ? "Submitting..." : "Submit" }}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import { Form } from "vform";
-
 export default {
   name: "User",
   props: ["auth","role"],
   data() {
     return {
-      roles: [
-        { name: "User", id: 2 },
-        { name: "Agent", id: 4 },
-      ],
       users: [],
       updateMode: false,
-      form: new Form({
-        id: "",
-        first_name: "",
-        phone_number:"",
-        last_name: "",
-        country: "",
-        email: "",
-        role_id: 2,
-      }),
     };
   },
   methods: {
@@ -239,51 +141,7 @@ export default {
             });
         }
       });      
-    },
-    showModal() {
-      $("#userModal").modal("show");
-      this.updateMode = false;
-      this.form.reset();
-    },
-    editModal(user) {
-      this.updateMode = true;
-      this.form.clear();
-      this.form.fill(user);
-      $("#userModal").modal("show");
-    },
-    storeUser() {
-      this.$Progress.start();
-      this.form
-        .post("/admin/api/user")
-        .then((resp) => {
-          this.$Progress.finish();
-          this.users.push(resp.data);
-          $("#userModal").modal("hide");
-          this.toast("User Created", "User Created Successfully", "success");
-        })
-        .catch((err) => {
-          this.$Progress.fail();
-          this.$swal("Error", "Error while creating user", "error");
-        });
-    },
-    updateUser() {
-      this.$Progress.start();
-      this.form
-        .put("/admin/api/user/" + this.form.id)
-        .then((resp) => {
-          const index = this.users.findIndex((s) => s.id === resp.data.id);
-          this.users[index].name = resp.data.name;
-          this.users[index].email = resp.data.email;
-          this.users[index].role = resp.data.role;
-          this.users[index].role_id = resp.data.role_id;
-          this.$Progress.finish();
-          this.toast("User Updated", "User updated successfully!");
-          $("#userModal").modal("hide");
-        })
-        .catch((err) => {
-          this.$Progress.fail();
-        });
-    },
+    }
   },
   created() {
     this.loadUsers();

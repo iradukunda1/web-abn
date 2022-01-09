@@ -75,7 +75,11 @@ class OrderController extends Controller
 
     public function agentShow(Order $order)
     {
-        return OrderProductsResource::collection(OrderedProduct::where("order_id", $order->id)->where("agent_id",auth()->user()->id)->get());
+        if(auth()->user()->hasRole("reporter_2") || auth()->user()->hasRole("reporter_1")){
+            return OrderProductsResource::collection(OrderedProduct::where("order_id", $order->id)->get());
+        }else{
+            return OrderProductsResource::collection(OrderedProduct::where("order_id", $order->id)->where("agent_id",auth()->user()->id)->get());
+        }
     }  
     public function adminShow(Order $order)
     {

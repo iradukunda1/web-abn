@@ -19,4 +19,7 @@ class Merchant extends Model
     {
         return $this->belongsTo(BussinesCategory::class,"bussiness_category_id");
     }
+    public function user(){
+        return $this->belongsTo(User::class,'registered_by','id');
+    }
 }
