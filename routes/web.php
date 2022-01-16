@@ -108,8 +108,13 @@ Route::group(['middleware' => ['auth']], function () {
     
     });
 
-});
 
+
+
+    Route::get('/complete/profile','AgentController@complete_profile');
+    Route::post('/complete/profile/store/{user}','AgentController@profile_store');
+
+});
 
 Route::get('/order/{order}','OrderController@agentShow');
 
