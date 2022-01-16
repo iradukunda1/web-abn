@@ -44,7 +44,7 @@
                                 </div>
                         <h4 class="price">Price:&nbsp;<span>{{ number_format($product->sale_price) }}Rfw</span></h4>
                         <div class="action">
-                            <!-- <a href="#"><button class="add-to-cart btn btn-default" type="button">Buy Now</button></a> -->
+                           <a href="#"><button class="add-to-cart btn btn-default" type="button">Buy Now</button></a> 
                         </div>
                     </div>
                 </div>

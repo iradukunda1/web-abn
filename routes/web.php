@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminUserManagementController;
 use App\Http\Controllers\DistrictManagerController;
 use App\Http\Controllers\ProvinceManagerController;
+use App\Http\Controllers\StockManagerController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Merchant;
@@ -93,10 +94,22 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/request',[DistrictManagerController::class,'all_request'])->name('district.request');
         });
     });
+    // Route::prefix('customer')->group(function(){
+    //     Route::middleware('user')->group(function(){
+    //         Route::get('/','HomeController@checkout')->name('checkout');
+    //     });
+        
+    // });
     Route::get('/complete/profile','AgentController@complete_profile');
     Route::post('/complete/profile/store/{user}','AgentController@profile_store');
+    Route::prefix('/stock')->group( function (){
+         Route::get('/',[StockManagerController::class,'index'])->name('manager.index');
+         Route::get('/stockIn',[StockManagerController::class,'stockIn'])->name('manager.stock_in');
+    
+    });
 
 });
+
 
 Route::get('/order/{order}','OrderController@agentShow');
 

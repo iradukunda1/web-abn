@@ -21,6 +21,10 @@ class CheckRedirection
         elseif(Auth::check()&&(Auth::user()->hasRole("reporter_2"))){
             return redirect("/district");
         }
+        elseif (Auth::check()&&(Auth::user()->hasRole('stock_manager'))){
+            return redirect('/stock');
+        }
+       
         return $response;
     }
 }
