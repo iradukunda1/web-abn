@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Str;
+
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -21,8 +22,9 @@ class Category extends Model
             $category->slug = $count ? "{$slug}-{$count}" : $slug;
         });
     }
-    
-    public function products(){
+
+    public function products()
+    {
         return $this->belongsToMany(Product::class);
     }
 }
