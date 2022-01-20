@@ -8,6 +8,7 @@ use App\Order;
 use Illuminate\Http\Request;
 use App\User;
 use App\Merchant;
+use App\OrderedProduct;
 use App\Product;
 use App\stockIn;
 use App\stockOut;
@@ -16,6 +17,7 @@ use Exception;
 use jeremykenedy\LaravelRoles\Models\Role;
 use Illuminate\Support\Str;
 use PHPUnit\Util\Json;
+use Illuminate\Validation\ValidationException;
 
 class StockManagerController extends Controller
 {
@@ -24,32 +26,38 @@ class StockManagerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $total_merchants = Merchant::get()->count();
         $total_product = Product::where('status', 1)->get()->count();
-        $total_agent = Role::where("slug", "agent")->first()->users->where("active", 1)->count();
-        $total_unverified_agents = Role::where("slug", "agent")->first()->users->where("verified", 0)->count();
-        $total_user = Role::where("slug", "user")->first()->users->where("active", 1)->count();
-        $total_request = Order::latest()->count();
-        $latest_request = Order::latest()->first();
-        $d = $latest_request->created_at->diffForHumans();
+        $total_request = OrderedProduct::all()->count();
+        $d = Order::latest()->first()->created_at->diffForHumans();
+        $latest_product = Product::latest()->first()->created_at->diffForHumans();
 
-        $total_district_managers = Role::where("slug", "reporter_2")->first()->users->where("active", 1)->count();
-        $total_province_managers = Role::where("slug", "reporter_1")->first()->users->where("active", 1)->count();
-        return view('stock_manager.index', compact('total_merchants', 'total_product', 'total_agent', 'total_unverified_agents', 'total_user', 'total_request', 'total_district_managers', 'total_province_managers', 'd'));
+        $stockIn = stockIn::get()->count();
+        $latest_stockIn = stockIn::latest()->first()->created_at->diffForHumans();
+        $stockOut = stockOut::get()->count();
+        $latest_stockOut = stockOut::latest()->first()->created_at->diffForHumans();
+
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
+
+        return view('stock_manager.index', compact('stockOut', 'products_low', 'latest_stockOut', 'latest_stockIn', 'total_product', 'latest_product', 'total_request', 'd', 'stockIn'));
     }
     public function stockInList()
     {
         $products = stockIn::paginate(10);
 
-        return view('stock_manager.stockin.stock_in_list', compact('products'));
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
+
+        return view('stock_manager.stockin.stock_in_list', compact('products', 'products_low'));
     }
     public  function stockIn()
     {
-
+        $low_quantity = stockIn::where('quantity', '<=', 5)->count();
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
         $categories = Category::all();
-        return view('stock_manager.stockin.stock_in', compact('categories'));
+        return view('stock_manager.stockin.stock_in', compact('categories', 'low_quantity', 'products_low'));
     }
     public function stockIn_store(Request $request)
     {
@@ -70,20 +78,37 @@ class StockManagerController extends Controller
                 'category_id' => $request['category_id']
             ]);
         } catch (Exception $e) {
-            return $e->getMessage();
-        }
 
-        return redirect()->back()->with(['alert' => 'success', 'message' => 'Product Saved Successful']);
+            $erros =  json_encode($e->getMessage(), true);
+            alert()->error('Invalid', 'Duplication of Product');
+            return redirect()->back();
+        }
+        alert()->success('Product', 'Product Has been Saved succesfuly');
+
+
+        return redirect()->back();
     }
     public function stockOut()
     {
+
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
         $categories = Category::all();
-        return view('stock_manager.stockout.stock_out', compact('categories'));
+        return view('stock_manager.stockout.stock_out', compact('categories', 'products_low'));
     }
     public function stockOutList()
     {
+
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
+
         $stockOuts = stockOut::all();
-        return view('stock_manager.stockout.stock_out_list', compact('stockOuts'));
+        return view('stock_manager.stockout.stock_out_list', compact('stockOuts', 'products_low'));
+    }
+    public function edit_stockOut($id){
+        $stock_edit=stockOut::where('id',$id)->first();
+        $categories=Category::all();
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
+
+        return view ('stock_manager.stockout.edit',compact('stock_edit','categories','products_low'));
     }
     public function Category_Stock(Request $request)
     {
@@ -119,32 +144,59 @@ class StockManagerController extends Controller
             $remeinder = $stockindata->quantity - $request['quantity_needed'];
             stockIn::where('slug', $request->product_name)->update(['quantity' => $remeinder, 'quantity_consumed' => $stockconsumer->quantity_stockOut]);
         } catch (Exception $e) {
-            return $e->getMessage();
+            alert()->error('Invalid', "Invalid data");
+            return redirect()->back();
         }
+        alert()->success('Stock Out', 'Stock Out Has Been Done succesfuly');
+
         return redirect()->back();
     }
     public function report()
     {
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
         $reports = consumed_stockOut::paginate(10);
-        return view('stock_manager.report', compact('reports'));
+        return view('stock_manager.report', compact('reports',  'products_low'));
     }
 
     public function profile()
     {
-        return view('stock_manager.profile');
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
+
+        return view('stock_manager.profile',compact('products_low'));
     }
     public function edit($id)
     {
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
         $categories = Category::all();
         $stock_edit = stockIn::where('slug', $id)->first();
 
-        return view('stock_manager.stockin.edit', compact('stock_edit', 'categories'));
+        return view('stock_manager.stockin.edit', compact('stock_edit', 'categories', 'products_low'));
     }
 
 
     public function update(Request $request, $id)
     {
-        //
+        $data_update = $request->except('_token', '_method');
+        stockIn::where('slug', $id)->update($data_update);
+        alert()->success($data_update['product_name'], 'Product Have Been Update succesfuly');
+
+        return redirect()->route('manager.stockInList');
+    }
+    public function AddQuantity($id)
+    {
+        $products_low = stockIn::where('quantity', '<=', 5)->get();
+        $categories = Category::all();
+        $stock_edit = stockIn::where('slug', $id)->first();
+        return view('stock_manager.stockin.quantity_edit', compact('products_low', 'stock_edit', 'categories'));
+    }
+    public function update_quantity(Request $request, $id)
+    {
+        $new_quantity = $request->current_quantity + $request->new_quantity;
+
+        stockIn::where('slug', $id)->update(['quantity' => $new_quantity]);
+        alert()->success($request['product_name'], 'Quantity  Have Been Increased succesfuly');
+
+        return redirect()->route('manager.stockInList');
     }
 
     /**
@@ -155,6 +207,20 @@ class StockManagerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $stock = stockIn::where('slug', $id)->first();
+        if (consumed_stockOut::where('stockIn_id', $stock->id)->exists()) {
+
+            alert()->error('Invalid', 'Product has been used ');
+            return redirect()->route('manager.stockInList');
+
+
+        } else {
+
+            $destroy=stockIn::where('slug',$id)->delete();
+            alert()->info('Product', 'Product  Have Been Deleted succesfuly');
+
+
+            return redirect()->route('manager.stockInList');
+        }
     }
 }

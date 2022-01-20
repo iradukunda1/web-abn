@@ -37,7 +37,11 @@
                             <td>
                                 <a href="{{ route('manager.edit',$product->slug) }}" class="mr-2" id="editor-modal"><i
                                         class="fas fa-edit text-info font-16"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt text-danger font-16"></i></a>
+                                <a href="{{ route('manager.stockIn.product',$product->slug) }}"><i
+                                        class="fas fa-plus-circle text-primary font-16"></i></a>
+                                <a href="{{ route('manager.stockIn.destroy',$product->slug) }}"
+                                    onclick="return confirm('Are You sure you want to delete {{ __($product->product_name) }}');"><i
+                                        class="fas fa-trash-alt text-danger font-16"></i></a>
 
 
                             </td>

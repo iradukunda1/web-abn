@@ -18,32 +18,55 @@
     <!-- Navbar -->
     <nav class="navbar-custom">
         <ul class="list-unstyled topbar-nav float-right mb-0">
+            @if ($products_low)
 
+
+            @if ($products_low->count()>0)
             <li class="dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown" href="#"
                     role="button" aria-haspopup="false" aria-expanded="false">
                     <i class="dripicons-bell noti-icon"></i>
-                    <span class="badge badge-danger badge-pill noti-icon-badge">2</span>
+
+
+
+                    <span class="badge badge-danger badge-pill noti-icon-badge">{{ $products_low->count()}}</span>
+
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-lg">
                     <!-- item-->
                     <h6 class="dropdown-item-text">
-                        Notifications (18)
+                        Notifications
                     </h6>
                     <div class="slimscroll notification-list">
-
+                        @foreach ($products_low ?? '' ?? '' as $lower )
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
-                            <div class="notify-icon bg-warning"><i class="mdi mdi-message"></i></div>
-                            <p class="notify-details">New Message received<small class="text-muted">You have 87 unread
-                                    messages</small></p>
+
+
+
+                            <div class="notify-icon bg-warning"><i class="mdi mdi-store"></i></div>
+
+
+
+                            <p class="notify-details">Stock Message<small class="text-muted">You Have {{
+                                    $lower->quantity }} quantity on {{ $lower->product_name }} </small></p>
+
                         </a>
+                        @endforeach
+                        @if ($products_low->count() >2)
+
+
+                        <a href="javascript:void(0);" class="dropdown-item text-center text-primary">
+                            View all <i class="fi-arrow-right"></i>
+                        </a>
+                        @endif
                     </div>
-                    <!-- All-->
-                    <a href="javascript:void(0);" class="dropdown-item text-center text-primary">
-                        View all <i class="fi-arrow-right"></i>
-                    </a>
+
+
+
                 </div>
             </li>
+            @endif
+            @endif
 
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#"

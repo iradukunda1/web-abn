@@ -114,6 +114,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/stock/report', [StockManagerController::class, 'report'])->name('manager.report');
         Route::get('/stockIn/edit/{id}', [StockManagerController::class, 'edit'])->name('manager.edit');
         Route::get('stock/profile', [StockManagerController::class, 'profile'])->name('manager.profile');
+        Route::put('stockIn/edit/{id}', [StockManagerController::class, 'update'])->name('manager.stockIn.update');
+        Route::get('/stockIn/product/{id}', [StockManagerController::class, 'AddQuantity'])->name('manager.stockIn.product');
+        Route::put('stockIn/product/{id}', [StockManagerController::class, 'update_quantity'])->name('manager.stockIn.product');
+        Route::get('/stockIn/product/destroy/{id}',[StockManagerController::class,'destroy'])->name('manager.stockIn.destroy');
+        Route::get('/stockOut/edit/{id}',[StockManagerController::class,'edit_stockOut'])->name('manager.stockOut.edit');
     });
 
 

@@ -36,6 +36,7 @@ class ComposerStaticInit6b939ce07aeca8fcd3eb8c8ab2643973
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '746bb4ebbdf3585f3e2e85fffd4a5f43' => __DIR__ . '/..' . '/cloudinary-labs/cloudinary-laravel/src/Support/helpers.php',
+        '6b34c85f7b1ad6faa15aa12109e030f2' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -95,6 +96,7 @@ class ComposerStaticInit6b939ce07aeca8fcd3eb8c8ab2643973
         ),
         'R' => 
         array (
+            'RealRashid\\SweetAlert\\' => 22,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
         ),
@@ -326,6 +328,10 @@ class ComposerStaticInit6b939ce07aeca8fcd3eb8c8ab2643973
         'Seedster\\' => 
         array (
             0 => __DIR__ . '/..' . '/eklundkristoffer/seedster/src',
+        ),
+        'RealRashid\\SweetAlert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/realrashid/sweet-alert/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -4740,6 +4746,13 @@ class ComposerStaticInit6b939ce07aeca8fcd3eb8c8ab2643973
         'Ramsey\\Uuid\\UuidInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidInterface.php',
         'Ramsey\\Uuid\\Validator\\GenericValidator' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/GenericValidator.php',
         'Ramsey\\Uuid\\Validator\\ValidatorInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/ValidatorInterface.php',
+        'RealRashid\\SweetAlert\\Console\\PublishCommand' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/Console/PublishCommand.php',
+        'RealRashid\\SweetAlert\\Facades\\Alert' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/Facades/Alert.php',
+        'RealRashid\\SweetAlert\\Storage\\AlertSessionStore' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/Storage/AlertSessionStore.php',
+        'RealRashid\\SweetAlert\\Storage\\SessionStore' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/Storage/SessionStore.php',
+        'RealRashid\\SweetAlert\\SweetAlertServiceProvider' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/SweetAlertServiceProvider.php',
+        'RealRashid\\SweetAlert\\ToSweetAlert' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/ToSweetAlert.php',
+        'RealRashid\\SweetAlert\\Toaster' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/Toaster.php',
         'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
@@ -4946,6 +4959,7 @@ class ComposerStaticInit6b939ce07aeca8fcd3eb8c8ab2643973
         'Seedster\\Commands\\SeedCommand' => __DIR__ . '/..' . '/eklundkristoffer/seedster/src/Commands/SeedCommand.php',
         'Seedster\\Handlers\\SeedHandler' => __DIR__ . '/..' . '/eklundkristoffer/seedster/src/Handlers/SeedHandler.php',
         'Seedster\\SeedsterServiceProvider' => __DIR__ . '/..' . '/eklundkristoffer/seedster/src/SeedsterServiceProvider.php',
+        'StockeManagerSeeder' => __DIR__ . '/../..' . '/database/seeds/StockeManagerSeeder.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\Attribute\\AsCommand' => __DIR__ . '/..' . '/symfony/console/Attribute/AsCommand.php',

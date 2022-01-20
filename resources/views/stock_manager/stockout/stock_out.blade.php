@@ -1,6 +1,6 @@
 @extends('layouts.manager')
-@section('title','Add Stock')
-@section('page_title', 'Add stock')
+@section('title','Add Stock Out')
+@section('page_title', 'Add stock Out')
 @section('content')
 <div class="card">
     <div class="card-header">Add Stock Out</div>

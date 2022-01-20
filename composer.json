@@ -16,7 +16,8 @@
         "jeremykenedy/laravel-roles": "^3.0",
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^2.4"
+        "laravel/ui": "^2.4",
+        "realrashid/sweet-alert": "^4.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -67,4 +68,4 @@
             "chmod -R 777 storage"
         ]
     }
-}  
+}

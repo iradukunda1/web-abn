@@ -45,7 +45,8 @@
     <div class="page-wrapper">
         @include('includes.stock-manager-side-bar')
 
-        {{-- @include('sweetalert::alert') --}}
+
+        @include('sweetalert::alert')
 
         <div class="page-content">
 

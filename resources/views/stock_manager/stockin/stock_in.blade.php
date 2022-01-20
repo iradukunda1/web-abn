@@ -65,7 +65,7 @@
         <div class="col col-md-8 mt-4">
           <div class="form-group">
             <button type="submit" class="btn btn-primary  waves-effect waves-light">
-              Submit
+              Save
             </button>
             <button type="reset" class="btn btn-danger waves-effect m-l-5">
               Cancel

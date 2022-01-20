@@ -1,12 +1,12 @@
 @extends('layouts.manager')
 @section('title','Add Stock')
-@section('page_title', 'Add stock')
+@section('page_title', 'Add Quantity')
 @section('content')
 <div class="card">
-    <div class="card-header">Edit Stock</div>
+    <div class="card-header">Add Quantity</div>
     <vue-progress-bar></vue-progress-bar>
     <div class="card-body">
-        <form action="{{ route('manager.stockIn.update',$stock_edit->slug) }}" method="post" class="form-parsley"
+        <form action="{{ route('manager.stockIn.product',$stock_edit->slug) }}" method="post" class="form-parsley"
             novalidate>
             @method('PUT')
             @csrf
@@ -16,8 +16,8 @@
                     <div class="form-group">
                         <input type="hidden" value="{{ $stock_edit->id }}" name="id">
                         <label for="Product Name" class="">Product Name</label>
-                        <input type="text" name="product_name" id="" class="form-control" placeholder="" required
-                            value="{{ $stock_edit->product_name }}">
+                        <input type="text" name="product_name" id="" readonly class="form-control" placeholder=""
+                            required value="{{ $stock_edit->product_name }}">
                         @if ($errors->has('product_name'))
                         <span class="invalid feedback text-danger" role="alert">
                             <strong>{{ $errors->first('product_name') }}.</strong>
@@ -25,23 +25,12 @@
                         @endif
                     </div>
                 </div>
+
                 <div class="col col-md-4">
                     <div class="form-group">
-                        <label for="Price" class=" ">Price</label>
-                        <input type="number" name="price" id="" class="form-control" placeholder="" required
-                            value="{{ $stock_edit->price }}">
-                        @if ($errors->has('price'))
-                        <span class="invalid feedback text-danger" role="alert">
-                            <strong>{{ $errors->first('price') }}.</strong>
-                        </span>
-                        @endif
-                    </div>
-                </div>
-                <div class="col col-md-4">
-                    <div class="form-group">
-                        <label for="Quantity" class=" ">Quantity</label>
-                        <input type="number" name="quantity" id="" class="form-control" placeholder="" required
-                            value="{{ $stock_edit->quantity }}">
+                        <label for="Quantity" class=" "> Current Quantity</label>
+                        <input type="number" name="current_quantity" id="" readonly class="form-control" placeholder=""
+                            required value="{{ $stock_edit->quantity }}">
                         @if ($errors->has('quantity'))
                         <span class="invalid feedback text-danger" role="alert">
                             <strong>{{ $errors->first('quantity') }}.</strong>
@@ -51,26 +40,20 @@
                 </div>
                 <div class="col col-md-4">
                     <div class="form-group">
-                        <label for="Category">Category</label>
-                        <select name="category_id" id="{{ $stock_edit->category_id }}"
-                            class="form-control custom-select select2 " placeholder="" required>
-
-                            @foreach ($categories as $category )
-                            <option {{ $category->id == $stock_edit->category_id ? 'selected' : '' }}
-                                value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                        @if ($errors->has('category'))
+                        <label for="Quantity" class=" "> New Quantity</label>
+                        <input type="number" name="new_quantity" id="" class="form-control" placeholder="" required
+                            value="">
+                        @if ($errors->has('quantity'))
                         <span class="invalid feedback text-danger" role="alert">
-                            <strong>{{ $errors->first('category') }}.</strong>
+                            <strong>{{ $errors->first('quantity') }}.</strong>
                         </span>
                         @endif
                     </div>
                 </div>
-                <div class="col col-md-8 mt-4">
+                <div class="col col-md-4  mt-4 ml-4">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary  waves-effect waves-light">
-                            Update
+                        <button type="submit" class="btn btn-success  waves-effect waves-light">
+                            Add Quantity
                         </button>
 
                         <button type="reset" class="btn btn-danger waves-effect m-l-5">

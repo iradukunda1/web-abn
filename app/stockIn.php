@@ -13,4 +13,7 @@ class stockIn extends Model
   {
     return $this->belongsTo(Category::class, 'category_id', 'id');
   }
+  public function consumed_stockOut(){
+    return $this->hasMany(consumed_stockOut::class);
+  }
 }

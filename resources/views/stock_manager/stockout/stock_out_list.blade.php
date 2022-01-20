@@ -1,6 +1,6 @@
 @extends('layouts.manager')
-@section('title','|Stock In')
-@section('page_title','Stock In')
+@section('title','|List Stock Out')
+@section('page_title','List Stock Out')
 @section('content')
 <div class="row">
     <div class="col-12">
@@ -21,7 +21,7 @@
 
                             <th>Quantinty Consumed</th>
                             <th>Date</th>
-                            <th>Action</th>
+                            {{-- <th>Action</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -37,13 +37,13 @@
 
                             <td>{{ $stockout->quantity }}</td>
                             <td>{{ $stockout->created_at->format('d/m/Y') }}</td>
-                            <td>
-                                <a href="#" class="mr-2" id="editor-modal"><i
-                                        class="fas fa-edit text-info font-16"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt text-danger font-16"></i></a>
+                            {{-- <td>
+                                <a href="{{ route('manager.stockOut.edit',$stockout->id) }}" class="mr-2"
+                                    id="editor-modal"><i class="fas fa-edit text-info font-16"></i></a>
+                                {{-- <a href="#"><i class="fas fa-trash-alt text-danger font-16"></i></a> --}}
 
 
-                            </td>
+                            </td> --}}
                         </tr>
                         @endforeach
                     </tbody>

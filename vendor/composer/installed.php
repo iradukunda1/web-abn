@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'f408bca8ab1232e52cdcfdeafc9ba7c021c75485',
+        'reference' => '1768551c0cf56694310190057245d595b800f035',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -424,7 +424,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'f408bca8ab1232e52cdcfdeafc9ba7c021c75485',
+            'reference' => '1768551c0cf56694310190057245d595b800f035',
             'dev_requirement' => false,
         ),
         'laravel/tinker' => array(
@@ -789,6 +789,15 @@
             'install_path' => __DIR__ . '/../ramsey/uuid',
             'aliases' => array(),
             'reference' => 'fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df',
+            'dev_requirement' => false,
+        ),
+        'realrashid/sweet-alert' => array(
+            'pretty_version' => 'v4.1.0',
+            'version' => '4.1.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../realrashid/sweet-alert',
+            'aliases' => array(),
+            'reference' => '7615c5799fbc8743a6b5a7bd7f645f55a1d62723',
             'dev_requirement' => false,
         ),
         'rhumsaa/uuid' => array(
